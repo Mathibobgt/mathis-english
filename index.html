@@ -233,6 +233,7 @@ textarea{min-height:160px;resize:vertical}
 .vex{color:var(--muted);font-size:15px;display:flex;align-items:center;gap:8px}
 .vex .spk{width:30px;height:30px}
 .yg{font-size:14px;font-weight:700;text-decoration:none}
+.biz{display:inline-block;vertical-align:middle;font-family:var(--f-body);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px;margin-left:4px}
 
 /* review */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px 20px;display:flex;flex-direction:column;gap:14px;min-height:320px}
@@ -292,6 +293,9 @@ const LESSONS = [
     {t:"ex", en:"I study business in Hungary.", fr:"Je fais des études de commerce en Hongrie."},
     {t:"ex", en:"The bus leaves at 8:15.", fr:"Le bus part à 8 h 15."},
     {t:"ex", en:"It rains a lot in October.", fr:"Il pleut beaucoup en octobre."},
+    {t:"p", x:"En éco et en gestion, on l'utilise tout le temps pour décrire une entreprise :"},
+    {t:"ex", en:"The company sells cars in Hungary.", fr:"L'entreprise vend des voitures en Hongrie."},
+    {t:"ex", en:"Our costs increase every year.", fr:"Nos coûts augmentent chaque année."},
     {t:"tip", x:"On ne l'utilise **pas** pour ce qui se passe en ce moment. Ça, c'est le présent continu (leçon 4)."},
     {t:"h", x:"La règle : le -s avec he, she, it"},
     {t:"p", x:"Un seul changement : on ajoute **-s** au verbe avec **he, she, it**, et avec tout ce qui les remplace (*my friend, Tom, the bus*)."},
@@ -323,7 +327,11 @@ const LESSONS = [
     {en:"to hang out", fr:"traîner avec des amis", ipa:"/hæŋ ˈaʊt/", say:"hèng AOUT", ex:"We hang out on Thursdays."},
     {en:"to go grocery shopping", fr:"faire les courses", ipa:"/ˈɡrəʊsəri ˈʃɒpɪŋ/", say:"GRÔ-sseu-ri CHO-ping", ex:"I go grocery shopping on Sundays."},
     {en:"usually", fr:"d'habitude", ipa:"/ˈjuːʒuəli/", say:"YOU-jou-eu-li", ex:"I usually cook pasta."},
-    {en:"actually", fr:"en fait (faux ami : pas « actuellement »)", ipa:"/ˈæktʃuəli/", say:"AK-tchou-eu-li", ex:"Actually, I live near the station."}
+    {en:"actually", fr:"en fait (faux ami : pas « actuellement »)", ipa:"/ˈæktʃuəli/", say:"AK-tchou-eu-li", ex:"Actually, I live near the station."},
+    {en:"revenue", fr:"le chiffre d'affaires (faux ami : pas « revenu »)", ipa:"/ˈrevənjuː/", say:"RÈ-veu-nyou", ex:"The company's revenue grows every year.", biz:true},
+    {en:"costs", fr:"les coûts", ipa:"/kɒsts/", say:"KOSTS", ex:"Our costs increase in winter.", biz:true},
+    {en:"to increase", fr:"augmenter", ipa:"/ɪnˈkriːs/", say:"in-KRIISS", ex:"Taxes increase the final price.", biz:true},
+    {en:"the average", fr:"la moyenne", ipa:"/ˈævərɪdʒ/", say:"A-veu-ridj", ex:"The average salary is higher in Budapest.", biz:true}
   ],
   sets:[
     {type:"fill", title:"Conjugue le verbe", instr:"Écris le verbe entre parenthèses au présent simple.", items:[
@@ -354,6 +362,13 @@ const LESSONS = [
       {q:"uses", say:"uses", a:"/ɪz/", why:"*use* finit par un son z → /ɪz/."},
       {q:"stops", say:"stops", a:"/s/", why:"Après le son p → /s/."},
       {q:"goes", say:"goes", a:"/z/", why:"Après une voyelle → /z/."}
+    ]},
+    {type:"fill", title:"Au travail", instr:"Même règle, avec des phrases d'entreprise. Conjugue le verbe au présent simple.", items:[
+      {q:"The company ___ cars in Hungary.", hint:"sell", a:["sells"], why:"The company = it → sell**s**."},
+      {q:"Our costs ___ every year.", hint:"increase", a:["increase"], why:"Our costs = they → pas de -s."},
+      {q:"The manager ___ the budget every month.", hint:"check", a:["checks"], why:"The manager = he ou she → check**s**."},
+      {q:"Taxes ___ the profit.", hint:"reduce", a:["reduce"], why:"Taxes = they → pas de -s."},
+      {q:"The average price ___ in December.", hint:"rise", a:["rises"], why:"The average price = it → rise**s**, prononcé /ɪz/."}
     ]},
     {type:"write", title:"Parle de ta vie à Győr", instr:"Écris 4 phrases au présent simple : 2 avec *I*, 2 sur quelqu'un d'autre (un coloc, un prof, un ami). Utilise au moins 2 mots du vocabulaire.", ph:"1. I usually…\n2. …\n3. My roommate…\n4. …"}
   ]
@@ -404,6 +419,10 @@ const LESSONS = [
       ["What time","à quelle heure","What time does the class start?"],
       ["How long","combien de temps","How long does it take?"],
       ["Which","lequel, quel (parmi un choix)","Which bus do you take?"]]},
+    {t:"p", x:"Les mêmes questions marchent pour parler d'une entreprise :"},
+    {t:"ex", en:"What does the company do?", fr:"Que fait l'entreprise ?"},
+    {t:"ex", en:"How many employees does it have?", fr:"Combien de salariés a-t-elle ?"},
+    {t:"ex", en:"Does the price include VAT?", fr:"Est-ce que le prix inclut la TVA ?"},
     {t:"h", x:"Les pièges"},
     {t:"trap", bad:"Where you live?", good:"Where do you live?", note:"Ne pas oublier *do*."},
     {t:"trap", bad:"Does she works?", good:"Does she work?", note:"Après *does*, pas de -s."},
@@ -425,7 +444,11 @@ const LESSONS = [
     {en:"Do you want to grab a coffee?", fr:"Tu veux prendre un café ?", say:"djeu WON-eu grèb eu KO-fi", ex:"Do you want to grab a coffee after class?"},
     {en:"What does it mean?", fr:"Ça veut dire quoi ?", ipa:"/wɒt dʌz ɪt ˈmiːn/", say:"wot deuz it MIIN", ex:"\"Cheers\"? What does it mean?"},
     {en:"Could you say that again?", fr:"Tu peux répéter ?", say:"koud-jeu SÉ that eu-GÈN", ex:"Sorry, could you say that again?"},
-    {en:"How's it going?", fr:"Comment ça va ? (familier)", ipa:"/haʊz ɪt ˈɡəʊɪŋ/", say:"haoz-it GÔ-ing", ex:"Hey Tom, how's it going?"}
+    {en:"How's it going?", fr:"Comment ça va ? (familier)", ipa:"/haʊz ɪt ˈɡəʊɪŋ/", say:"haoz-it GÔ-ing", ex:"Hey Tom, how's it going?"},
+    {en:"an employee", fr:"un salarié, un employé", ipa:"/ɪmˈplɔɪiː/", say:"im-ploï-II", ex:"How many employees does the company have?", biz:true},
+    {en:"a profit", fr:"un bénéfice", ipa:"/ˈprɒfɪt/", say:"PRO-fit", ex:"Does the company make a profit?", biz:true},
+    {en:"VAT", fr:"la TVA (27 % en Hongrie)", ipa:"/ˌviː eɪ ˈtiː/", say:"vii-é-TII", ex:"Does the price include VAT?", biz:true},
+    {en:"a budget", fr:"un budget", ipa:"/ˈbʌdʒɪt/", say:"BEU-djit", ex:"Is the budget big enough?", biz:true}
   ],
   sets:[
     {type:"choice", title:"Do, Does, Am, Is ou Are ?", instr:"Choisis le bon mot pour commencer la question.", opts:["Do","Does","Am","Is","Are"], items:[
@@ -469,6 +492,13 @@ const LESSONS = [
       {q:"Do you like pizza? — Yes, I ___.", opts:["do","am","like"], a:"do", why:"Question avec do → réponse avec do."},
       {q:"Is she Hungarian? — No, she ___.", opts:["doesn't","isn't","don't"], a:"isn't", why:"Question avec is → réponse avec isn't."},
       {q:"Does he work here? — Yes, he ___.", opts:["is","works","does"], a:"does", why:"Question avec does → réponse avec does."}
+    ]},
+    {type:"choice", title:"Questions au travail", instr:"Choisis le bon mot pour ces questions sur une entreprise.", opts:["Do","Does","Is","Are","does"], items:[
+      {q:"___ the company make a profit?", opts:["Do","Does","Is"], a:"Does", why:"the company = it, avec un verbe (make) → Does."},
+      {q:"___ the prices include VAT?", opts:["Do","Does","Are"], a:"Do", why:"the prices = they, avec un verbe (include) → Do."},
+      {q:"___ the budget big enough?", opts:["Does","Is","Are"], a:"Is", why:"Pas d'autre verbe, *big* est un adjectif → Is."},
+      {q:"How many employees ___ the company have?", opts:["do","does","is"], a:"does", why:"the company = it → does, et *have* reste nu."},
+      {q:"___ your costs higher this year?", opts:["Do","Does","Are"], a:"Are", why:"*higher* est un adjectif, avec they → Are."}
     ]},
     {type:"write", title:"Rencontre un Erasmus", instr:"Tu viens de rencontrer un(e) étudiant(e) Erasmus. Écris 5 questions à lui poser : 2 avec *be* (are / is), 2 avec *do / does*, et 1 avec *How often* ou *How much*.", ph:"1. Where are you…?\n2. …\n3. Do you…?\n4. …\n5. How often…?"}
   ]
@@ -708,9 +738,9 @@ function renderBlock(b){
 function vocabTab(L){
   const items = L.vocab.map(v => {
     const yg = "https://youglish.com/pronounce/"+encodeURIComponent(v.en.replace(/^to /,"").replace(/[?!.]/g,""))+"/english";
-    return '<li class="vrow"><div class="vtop">'+spk(v.en)+'<div><p class="ven">'+esc(v.en)+'</p><p class="vfr">'+fmt(v.fr)+'</p></div></div><p class="vsay">'+(v.ipa ? '<span class="ipa">'+esc(v.ipa)+'</span> ' : "")+'<span class="say">« '+esc(v.say)+' »</span></p><p class="vex">'+spk(v.ex)+'<i>'+esc(v.ex)+'</i></p><a class="yg" href="'+yg+'" target="_blank" rel="noopener">Écouter des natifs sur YouGlish ↗</a></li>';
+    return '<li class="vrow"><div class="vtop">'+spk(v.en)+'<div><p class="ven">'+esc(v.en)+(v.biz ? ' <span class="biz">Éco-gestion</span>' : "")+'</p><p class="vfr">'+fmt(v.fr)+'</p></div></div><p class="vsay">'+(v.ipa ? '<span class="ipa">'+esc(v.ipa)+'</span> ' : "")+'<span class="say">« '+esc(v.say)+' »</span></p><p class="vex">'+spk(v.ex)+'<i>'+esc(v.ex)+'</i></p><a class="yg" href="'+yg+'" target="_blank" rel="noopener">Écouter des natifs sur YouGlish ↗</a></li>';
   }).join("");
-  return '<p class="muted">Les MAJUSCULES montrent la syllabe accentuée. '+(TTS ? "Touche le haut-parleur pour écouter." : "")+' Ces mots rejoignent ta révision quotidienne.</p><ul class="vlist">'+items+'</ul><div class="row"><button class="btn ghost" data-act="review">Réviser mes mots</button><button class="btn" data-act="tab" data-tab="ex">Passer aux exercices</button></div>';
+  return '<p class="muted">Les MAJUSCULES montrent la syllabe accentuée. '+(TTS ? "Touche le haut-parleur pour écouter." : "")+' Les mots <span class="biz">Éco-gestion</span> viennent du monde des affaires. Tous rejoignent ta révision quotidienne.</p><ul class="vlist">'+items+'</ul><div class="row"><button class="btn ghost" data-act="review">Réviser mes mots</button><button class="btn" data-act="tab" data-tab="ex">Passer aux exercices</button></div>';
 }
 
 /* ---------- Exercices ---------- */
@@ -989,7 +1019,7 @@ function reviewView(){
   const w = wordById(rev.queue[rev.i]);
   let html = '<div class="progress" aria-hidden="true"><i style="width:'+prog+'%"></i></div>';
   html += '<p class="muted">Mot '+(rev.i+1)+' sur '+rev.queue.length+(rev.extra ? " · révision bonus" : "")+'</p>';
-  html += '<section class="card"><p class="eyebrow">Comment dit-on en anglais…</p><p class="rv-fr">'+fmt(w.v.fr)+'</p>';
+  html += '<section class="card"><p class="eyebrow">Comment dit-on en anglais…'+(w.v.biz ? ' <span class="biz">Éco-gestion</span>' : "")+'</p><p class="rv-fr">'+fmt(w.v.fr)+'</p>';
   if (rev.flipped){
     html += '<div class="rv-back"><p class="rv-en">'+esc(w.v.en)+' '+spk(w.v.en)+'</p><p>'+(w.v.ipa ? '<span class="ipa">'+esc(w.v.ipa)+'</span> ' : "")+'<span class="say">« '+esc(w.v.say)+' »</span></p><p class="muted"><i>'+esc(w.v.ex)+'</i></p></div>';
     html += '<div class="grow"></div><div class="row"><button class="btn ghost" data-act="again">À revoir</button><button class="btn" data-act="knew">Je savais</button></div>';
